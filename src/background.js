@@ -21,10 +21,26 @@ function createWindow () {
   win = new BrowserWindow({
     width: 800,
     height: 600,
-    icon: path.join(__static, 'icon.png'),
+    icon: path.join(__static, 'icon.png'), // eslint-disable-line no-undef
     useContentSize: true,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      nativeWindowOpen: true
+    }
+  })
+
+  win.webContents.on('new-window', (event, url, frameName, disposition, options, additionalFeatures) => {
+    if (frameName === 'popup') {
+      // open window as modal
+      event.preventDefault()
+      Object.assign(options, {
+        modal: true,
+        width: 400,
+        height: 400,
+        center: true,
+        resizable: false
+      })
+      event.newGuest = new BrowserWindow(options)
     }
   })
 
@@ -76,7 +92,6 @@ app.on('ready', async () => {
     } catch (e) {
       console.error('Vue Devtools failed to install:', e.toString())
     }
-
   }
   createWindow()
 })

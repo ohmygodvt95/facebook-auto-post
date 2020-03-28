@@ -7,5 +7,8 @@ module.exports = {
         productName: process.env.VUE_APP_NAME
       }
     }
-  }
+  },
+  transpileDependencies: [
+    'vuetify'
+  ]
 }
