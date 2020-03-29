@@ -14,6 +14,9 @@
 import LocalDB from '../helpers/localdb'
 
 export default {
+  created () {
+    this.$database.getInstance()
+  },
   mounted () {
     this.localDb = new LocalDB({
       configName: 'user-cookie',

@@ -4,6 +4,7 @@
       app
       color="primary"
       dark
+      hide-on-scroll
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
@@ -55,6 +56,21 @@
     </v-navigation-drawer>
     <v-content>
       <router-view></router-view>
+      <v-btn
+        v-scroll="onScroll"
+        v-show="fab"
+        fab
+        dark
+        fixed
+        bottom
+        right
+        color="primary"
+        style="bottom: 50px"
+        @click="toTop"
+        small
+      >
+        <v-icon>keyboard_arrow_up</v-icon>
+      </v-btn>
     </v-content>
     <v-footer app>
       <small>{{ message }}</small>
@@ -73,6 +89,7 @@
 export default {
   name: 'Layout',
   data: () => ({
+    fab: false,
     message: '',
     drawer: false,
     group: null,
@@ -99,7 +116,16 @@ export default {
       }
     ]
   }),
-
+  methods: {
+    onScroll (e) {
+      if (typeof window === 'undefined') return
+      const top = window.pageYOffset || e.target.scrollTop || 0
+      this.fab = top > 20
+    },
+    toTop () {
+      this.$vuetify.goTo(0)
+    }
+  },
   watch: {
     group () {
       this.drawer = false

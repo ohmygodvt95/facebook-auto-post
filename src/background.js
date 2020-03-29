@@ -19,7 +19,7 @@ protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { secure: tru
 function createWindow () {
   // Create the browser window.
   win = new BrowserWindow({
-    width: 800,
+    width: 1024,
     height: 600,
     icon: path.join(__static, 'icon.png'), // eslint-disable-line no-undef
     useContentSize: true,

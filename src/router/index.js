@@ -42,6 +42,11 @@ const routes = [
         path: 'account',
         name: 'account2',
         component: require('@/views/pages/Account.vue').default
+      },
+      {
+        path: 'campaign/:id',
+        name: 'campaign',
+        component: require('@/views/pages/Campaign.vue').default
       }
     ]
   },
