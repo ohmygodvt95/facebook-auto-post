@@ -20,10 +20,11 @@ function createWindow () {
   // Create the browser window.
   win = new BrowserWindow({
     frame: false,
-    width: 1024,
-    height: 600,
+    width: 1280,
+    height: 700,
     icon: path.join(__static, 'icon.png'), // eslint-disable-line no-undef
     useContentSize: true,
+    resizable: false,
     webPreferences: {
       nodeIntegration: true,
       nativeWindowOpen: true,
@@ -37,6 +38,7 @@ function createWindow () {
       event.preventDefault()
       Object.assign(options, {
         modal: true,
+        frame: true,
         width: 400,
         height: 400,
         center: true,

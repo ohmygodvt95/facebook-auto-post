@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="home">
     <v-breadcrumbs :items="items"></v-breadcrumbs>
     <v-banner sticky>
       Danh sách chiến dịch mà bạn đã tạo.
@@ -117,3 +117,10 @@ export default {
   }
 }
 </script>
+
+<style>
+#home {
+  height: calc(100vh - 132px);
+  overflow-y: auto;
+}
+</style>

@@ -1,5 +1,5 @@
 <template>
-  <v-card flat v-if="campaign" style="overflow-y: auto; border-radius: 0;">
+  <v-card flat v-if="campaign" style="overflow-y: auto; border-radius: 0; height: calc(100vh - 132px);">
     <v-toolbar
       style="border-radius: 0"
       extended
@@ -26,7 +26,12 @@
 
       <v-divider></v-divider>
 
-      <v-card-text style="height: 380px; overflow: auto">
+      <v-card-text style="min-height: 430px; overflow: auto">
+        <v-progress-linear
+          indeterminate
+          color="primary"
+          v-if="play"
+        ></v-progress-linear>
         <v-tabs vertical>
           <v-tab>
             <v-icon left>supervisor_account</v-icon>
@@ -56,11 +61,6 @@
           <v-tab-item>
             <v-card flat>
               <v-card-text>
-                <v-progress-linear
-                  indeterminate
-                  color="primary"
-                  v-if="play"
-                ></v-progress-linear>
                 <v-toolbar flat small>
                   <v-spacer></v-spacer>
 
@@ -160,7 +160,7 @@
             <v-card flat>
               <v-card-text>
                 <v-textarea
-                  rows="10"
+                  rows="20"
                   clearable
                   auto-grow
                   outlined

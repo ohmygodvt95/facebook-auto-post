@@ -1,18 +1,23 @@
 <template>
-  <v-app>
+  <div>
     <div id="titlebar">
       <v-system-bar window fixed>
-        <b>Facebook Auto Toolkit</b>
+        <div style="-webkit-app-region: drag; width: calc(100vw - 200px)">
+          <b>Facebook Auto Toolkit</b>
+        </div>
         <v-spacer></v-spacer>
-        <v-icon class="controls" title="Minimize" @click="minimize()">remove</v-icon>
-        <v-icon class="controls" title="Maximize" @click="maximize()">crop_square</v-icon>
-        <v-icon class="controls" title="Close" @click="close()">close</v-icon>
+        <div>
+          <v-icon class="controls" title="Minimize" @click="minimize()">remove</v-icon>
+          <v-icon class="controls" title="Maximize" @click="maximize()">crop_square</v-icon>
+          <v-icon class="controls" title="Close" @click="close()">close</v-icon>
+        </div>
       </v-system-bar>
-      <v-app-bar
+    </div>
+    <v-app-bar
         app
         color="primary"
         dark
-        style="-webkit-app-region: drag; top: 32px;"
+        style="top: 32px;"
       >
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
@@ -23,7 +28,6 @@
           <v-icon>info</v-icon>
         </v-btn>
       </v-app-bar>
-    </div>
     <v-navigation-drawer
       v-model="drawer"
       absolute
@@ -91,7 +95,7 @@
         <small>&copy; {{ new Date().getFullYear() }}</small>
       </div>
     </v-footer>
-  </v-app>
+  </div>
 </template>
 
 <script>
@@ -177,13 +181,12 @@ export default {
   }
 
   #titlebar {
-    height: 88px;
     -webkit-app-region: drag;
   }
 
   #v-app-content {
-    padding-top: 0!important;
-    max-height: calc(100vh - 88px - 36px);
-    overflow-y: auto;
+    padding-top: 96px!important;
+    padding-bottom: 36px!important;
+    overflow-y: hidden;
   }
 </style>
