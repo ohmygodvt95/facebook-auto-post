@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-breadcrumbs :items="items" single-line></v-breadcrumbs>
+    <v-breadcrumbs :items="items"></v-breadcrumbs>
     <v-banner sticky>
       Danh sách chiến dịch mà bạn đã tạo.
       Tạo mới chiến dịch bằng cách bấm vào nút "Thêm mới" ở đây.

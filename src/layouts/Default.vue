@@ -1,20 +1,29 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-      hide-on-scroll
-    >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+    <div id="titlebar">
+      <v-system-bar window fixed>
+        <b>Facebook Auto Tools</b>
+        <v-spacer></v-spacer>
+        <v-icon class="controls" title="Minimize" @click="minimize()">remove</v-icon>
+        <v-icon class="controls" title="Maximize" @click="maximize()">crop_square</v-icon>
+        <v-icon class="controls" title="Close" @click="close()">close</v-icon>
+      </v-system-bar>
+      <v-app-bar
+        app
+        color="primary"
+        dark
+        style="-webkit-app-region: drag; top: 32px;"
+      >
+        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>FB Auto Tools</v-toolbar-title>
+        <v-toolbar-title>FB Auto Tools</v-toolbar-title>
 
-      <v-spacer></v-spacer>
-      <v-btn icon title="Info" to="/guide" link>
-        <v-icon>info</v-icon>
-      </v-btn>
-    </v-app-bar>
+        <v-spacer></v-spacer>
+        <v-btn icon title="Info" to="/guide" link>
+          <v-icon>info</v-icon>
+        </v-btn>
+      </v-app-bar>
+    </div>
     <v-navigation-drawer
       v-model="drawer"
       absolute
@@ -54,7 +63,7 @@
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
-    <v-content>
+    <v-content id="v-app-content">
       <router-view></router-view>
       <v-btn
         v-scroll="onScroll"
@@ -86,6 +95,9 @@
 </template>
 
 <script>
+const remote = require('electron').remote
+const win = remote.getCurrentWindow()
+
 export default {
   name: 'Layout',
   data: () => ({
@@ -124,6 +136,19 @@ export default {
     },
     toTop () {
       this.$vuetify.goTo(0)
+    },
+    close: function () {
+      win.close()
+    },
+    maximize: function () {
+      if (win.isFullScreen()) {
+        win.setFullScreen(false)
+      } else {
+        win.setFullScreen(true)
+      }
+    },
+    minimize: function () {
+      win.minimize()
     }
   },
   watch: {
@@ -140,3 +165,26 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+  .controls
+  {
+    padding: 5px;
+    &:hover
+    {
+      background-color: darkgray;
+    }
+  }
+
+  #titlebar {
+    height: 88px;
+    -webkit-user-select: none;
+    -webkit-app-region: drag;
+  }
+
+  #v-app-content {
+    padding-top: 0!important;
+    max-height: calc(100vh - 88px - 36px);
+    overflow-y: auto;
+  }
+</style>
