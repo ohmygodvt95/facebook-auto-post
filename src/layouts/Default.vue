@@ -2,7 +2,7 @@
   <v-app>
     <div id="titlebar">
       <v-system-bar window fixed>
-        <b>Facebook Auto Tools</b>
+        <b>Facebook Auto Toolkit</b>
         <v-spacer></v-spacer>
         <v-icon class="controls" title="Minimize" @click="minimize()">remove</v-icon>
         <v-icon class="controls" title="Maximize" @click="maximize()">crop_square</v-icon>
@@ -16,7 +16,7 @@
       >
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-        <v-toolbar-title>FB Auto Tools</v-toolbar-title>
+        <v-toolbar-title>FB Auto Toolkit</v-toolbar-title>
 
         <v-spacer></v-spacer>
         <v-btn icon title="Info" to="/guide" link>
@@ -178,7 +178,6 @@ export default {
 
   #titlebar {
     height: 88px;
-    -webkit-user-select: none;
     -webkit-app-region: drag;
   }
 
