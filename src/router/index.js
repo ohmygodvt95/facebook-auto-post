@@ -29,11 +29,6 @@ const routes = [
         component: require('@/views/pages/Home.vue').default
       },
       {
-        path: 'about',
-        name: 'about',
-        component: require('@/views/pages/About.vue').default
-      },
-      {
         path: 'settings',
         name: 'settings',
         component: require('@/views/pages/Setting.vue').default

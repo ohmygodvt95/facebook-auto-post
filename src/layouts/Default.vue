@@ -3,7 +3,7 @@
     <div id="titlebar">
       <v-system-bar window fixed>
         <div style="-webkit-app-region: drag; width: calc(100vw - 200px)">
-          <b>Facebook Auto Toolkit</b>
+          <b>Facebook Auto Toolkit <span v-if="username">-「{{ username }}」</span></b>
         </div>
         <v-spacer></v-spacer>
         <div>
@@ -38,10 +38,11 @@
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title class="title">
-            FB Auto Tools
+            FB Auto Toolkit
           </v-list-item-title>
           <v-list-item-subtitle>
-            v0.0.1
+            v0.1.1 <br>
+            {{ username }}
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
@@ -86,7 +87,7 @@
       </v-btn>
     </v-content>
     <v-footer app>
-      <small>{{ message }}</small>
+      <small>Status: {{ message }}</small>
       <v-spacer></v-spacer>
       <div>
         <small>
@@ -99,6 +100,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 const remote = require('electron').remote
 const win = remote.getCurrentWindow()
 
@@ -106,7 +108,6 @@ export default {
   name: 'Layout',
   data: () => ({
     fab: false,
-    message: '',
     drawer: false,
     group: null,
     links: [
@@ -121,16 +122,15 @@ export default {
         url: '/pages/account'
       },
       {
-        icon: 'assignment_ind',
-        name: 'About',
-        url: '/pages/about'
-      },
-      {
         icon: 'settings',
         name: 'Settings',
         url: '/pages/settings'
       }
     ]
+  }),
+  computed: mapState({
+    username: store => store.auth.username,
+    message: store => store.message.footerMessage
   }),
   methods: {
     onScroll (e) {
@@ -159,13 +159,6 @@ export default {
     group () {
       this.drawer = false
     }
-  },
-  created () {
-    this.$store.subscribe((mutation, state) => {
-      if (mutation.type === 'message/showFooterMessage') {
-        this.message = state.message.footerMessage
-      }
-    })
   }
 }
 </script>

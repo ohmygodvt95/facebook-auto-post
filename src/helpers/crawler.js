@@ -17,6 +17,7 @@ export default class Crawler {
   baseUrl = 'https://mbasic.facebook.com/'
   content = ''
   context = null
+  delay = localStorage.getItem('setting.delay') || 1000
   constructor (context = null, debugMode = true) {
     if (require('os').platform() === 'darwin') {
       this.metaKey = 'Meta'
@@ -75,6 +76,7 @@ export default class Crawler {
         await this.page.click('#objects_container input[name=add_photo_done]')
       }
       await this.submit()
+      await this.page.waitFor(this.delay)
       await this.page.close()
       this.context.$notifier.showFooterMessage({ message: `hoàn thành cho group ${campaign.name}` })
       return 3

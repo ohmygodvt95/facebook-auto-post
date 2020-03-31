@@ -6,28 +6,13 @@
           <v-subheader>General</v-subheader>
 
           <v-list-item>
-            <v-list-item-content>
-              <v-list-item-title>Profile photo</v-list-item-title>
-              <v-list-item-subtitle>Change your Google+ profile photo</v-list-item-subtitle>
-            </v-list-item-content>
+            <template v-slot:default>
+              <v-list-item-content>
+                <v-list-item-title>Thời gian delay giữa 2 lần (giây)</v-list-item-title>
+                <v-text-field type="number" v-model="delay" min="1000" step="500" @change="setDelay()"></v-text-field>
+              </v-list-item-content>
+            </template>
           </v-list-item>
-
-          <v-list-item>
-            <v-list-item-content>
-              <v-list-item-title>Show your status</v-list-item-title>
-              <v-list-item-subtitle>Your status is visible to everyone</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-
-        <v-divider></v-divider>
-
-        <v-list
-          subheader
-          two-line
-          flat
-        >
-          <v-subheader>Hangout notifications</v-subheader>
         </v-list>
       </v-col>
     </v-row>
@@ -35,5 +20,18 @@
 </template>
 
 <script>
-export default {}
+export default {
+  data () {
+    return {
+      delay: this.$store.state.setting.delay
+    }
+  },
+  methods: {
+    setDelay: function () {
+      this.$store.commit('setting/setDelay', {
+        delay: this.delay
+      })
+    }
+  }
+}
 </script>

@@ -53,17 +53,20 @@
 
 <script>
 import LocalDB from '../../helpers/localdb'
+import { mapState } from 'vuex'
 const { session } = require('electron').remote
 
 export default {
   name: 'Home',
-  username: null,
   data: function () {
     return {
       localDb: null,
       cookie: ''
     }
   },
+  computed: mapState({
+    username: state => state.auth.username
+  }),
   methods: {
     open: function () {
       const thisInt = this
@@ -88,9 +91,10 @@ export default {
     updateCookie: function (cookies, name) {
       this.cookie = cookies
       this.localDb.set('cookie', cookies)
-      session.defaultSession.clearStorageData([], (data) => {})
       this.$notifier.showMessage({ content: `Hi ${name}, welcome back!` })
-      localStorage.setItem('username', name)
+      this.$store.commit('auth/setUsername', {
+        username: name
+      })
       if (this.$route.path === '/account') {
         this.$router.push('/pages/home')
       }
@@ -98,7 +102,8 @@ export default {
     deleteCookie () {
       this.cookie = ''
       this.localDb.set('cookie', '')
-      localStorage.removeItem('username')
+      localStorage.removeItem('auth.username')
+      this.$store.commit('auth/setUsername', { username: null })
       this.$notifier.showMessage({ content: 'Đăng xuất thành công' })
     },
     exitApp: function () {
@@ -114,9 +119,7 @@ export default {
         cookie: ''
       }
     })
-
     this.cookie = this.localDb.get('cookie')
-    this.username = localStorage.getItem('username')
   }
 }
 </script>

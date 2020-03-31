@@ -1,5 +1,10 @@
 <template>
   <v-card flat v-if="campaign" style="overflow-y: auto; border-radius: 0; height: calc(100vh - 132px);">
+    <v-progress-linear
+      indeterminate
+      color="primary"
+      v-if="play"
+    ></v-progress-linear>
     <v-toolbar
       style="border-radius: 0"
       extended
@@ -17,21 +22,19 @@
         <v-btn icon to="/pages/home" color="primary"><v-icon>arrow_back</v-icon></v-btn>
         <v-toolbar-title class="grey--text">{{ campaign.name }}</v-toolbar-title>
         <v-spacer></v-spacer>
-
-        <v-btn fab color="error" small @click="run()">
-          <v-icon v-if="!play">play_arrow</v-icon>
-          <v-icon v-else>pause</v-icon>
-        </v-btn>
+        <div>
+          <small style="padding-right: 25px;" v-if="campaign.groups.length === 0 || campaign.content.length === 0"> Vui lòng chọn groups và điền nội dung</small>
+          <small style="padding-right: 25px;" v-else>Chạy auto ngay →</small>
+          <v-btn fab color="error" small @click="run()" :disabled="campaign.groups.length === 0 || campaign.content.length === 0">
+            <v-icon v-if="!play">play_arrow</v-icon>
+            <v-icon v-else>pause</v-icon>
+          </v-btn>
+        </div>
       </v-toolbar>
 
       <v-divider></v-divider>
 
       <v-card-text style="min-height: 430px; overflow: auto">
-        <v-progress-linear
-          indeterminate
-          color="primary"
-          v-if="play"
-        ></v-progress-linear>
         <v-tabs vertical>
           <v-tab>
             <v-icon left>supervisor_account</v-icon>
@@ -115,7 +118,7 @@
                   <v-btn icon dark @click="dialog = false">
                     <v-icon>close</v-icon>
                   </v-btn>
-                  <v-toolbar-title>Chọn group mục tiêu (đang chọn <b>{{ counterList }}</b>)</v-toolbar-title>
+                  <v-toolbar-title>Chọn group mục tiêu (đang chọn <b>{{ counterList }}</b>/{{ listGroups.length }})</v-toolbar-title>
                   <v-spacer></v-spacer>
                   <v-toolbar-items>
                     <v-btn dark text @click="closeGroupDialog()">Xác nhận</v-btn>
@@ -124,13 +127,15 @@
                 <v-container>
                   <v-row>
                     <v-col style="max-height: calc(100vh - 88px); overflow-y: auto;">
-                      <div v-if="loading">
-                        <v-progress-circular
-                          :size="50"
-                          color="primary"
-                          indeterminate
-                        ></v-progress-circular> Đang lấy dữ liệu...
-                      </div>
+                      <v-overlay :value="loading" :absolute="true">
+                        <span>
+                          <v-progress-circular
+                            :size="50"
+                            color="primary"
+                            indeterminate
+                          ></v-progress-circular> Đang lấy dữ liệu...
+                        </span>
+                      </v-overlay>
                       <v-col cols="6" offset="3">
                         <v-text-field
                           v-model="searchGroupName"
@@ -139,7 +144,7 @@
                           clearable
                         ></v-text-field>
                       </v-col>
-                      <div v-if="listGroups">
+                      <v-col v-if="listGroups" style="height: calc(100vh - 250px); overflow-y: auto; padding: 5px 15px" cols="8" offset="2">
                         <v-checkbox v-for="item in filteredList" v-bind:key="item.href"
                                     v-model="item.value"
                                     :label="item.text"
@@ -149,7 +154,7 @@
                             <v-divider></v-divider>
                           </template>
                         </v-checkbox>
-                      </div>
+                      </v-col>
                     </v-col>
                   </v-row>
                 </v-container>
