@@ -1,12 +1,9 @@
 <template>
   <div>
     <v-carousel v-model="model">
-      <v-carousel-item
-        v-for="(color, i) in colors"
-        :key="color"
-      >
+      <v-carousel-item>
         <v-sheet
-          :color="color"
+          color="primary"
           height="100%"
           tile
         >
@@ -15,7 +12,126 @@
             align="center"
             justify="center"
           >
-            <div class="display-3">Slide {{ i + 1 }}</div>
+            <div class="display-1">
+              Đăng nhập <br>
+              bằng tài khoản facebook</div>
+            <div class="image">
+              <img src="../assets/guideline/1.png" alt="" width="512px">
+            </div>
+          </v-row>
+        </v-sheet>
+      </v-carousel-item>
+      <v-carousel-item>
+        <v-sheet
+          color="blue-grey lighten-2"
+          height="100%"
+          tile
+        >
+          <v-row
+            class="fill-height"
+            align="center"
+            justify="center"
+          >
+            <div class="display-1">
+              Tạo mới chiến dịch <br>
+            </div>
+            <div class="image">
+              <img src="../assets/guideline/2.png" alt="" width="512px">
+            </div>
+          </v-row>
+        </v-sheet>
+      </v-carousel-item>
+      <v-carousel-item>
+        <v-sheet
+          color="primary"
+          height="100%"
+          tile
+        >
+          <v-row
+            class="fill-height"
+            align="center"
+            justify="center"
+          >
+            <div class="display-1">Thêm sửa xoá <br>
+              nội dung</div>
+            <div class="image">
+              <img src="../assets/guideline/4.png" alt="" width="512px">
+            </div>
+          </v-row>
+        </v-sheet>
+      </v-carousel-item>
+      <v-carousel-item>
+        <v-sheet
+          color="light-blue accent-3"
+          height="100%"
+          tile
+        >
+          <v-row
+            class="fill-height"
+            align="center"
+            justify="center"
+          >
+            <div class="display-1">
+              Chọn group mục tiêu
+            </div>
+            <div class="image">
+              <img src="../assets/guideline/3.png" alt="" width="512px">
+            </div>
+          </v-row>
+        </v-sheet>
+      </v-carousel-item>
+      <v-carousel-item>
+        <v-sheet
+          color="primary"
+          height="100%"
+          tile
+        >
+          <v-row
+            class="fill-height"
+            align="center"
+            justify="center"
+          >
+            <div class="display-1">Thêm nội dung
+              <br>và hình ảnh</div>
+            <div class="image">
+              <img src="../assets/guideline/5.png" alt="" width="512px">
+            </div>
+          </v-row>
+        </v-sheet>
+      </v-carousel-item>
+      <v-carousel-item>
+        <v-sheet
+          color="red darken-1"
+          height="100%"
+          tile
+        >
+          <v-row
+            class="fill-height"
+            align="center"
+            justify="center"
+          >
+            <div class="display-1">Chạy</div>
+            <div class="image">
+              <img src="../assets/guideline/6.png" alt="" width="512px">
+            </div>
+          </v-row>
+        </v-sheet>
+      </v-carousel-item>
+      <v-carousel-item>
+        <v-sheet
+          color="green darken-1"
+          height="100%"
+          tile
+        >
+          <v-row
+            class="fill-height"
+            align="center"
+            justify="center"
+          >
+            <div class="display-1">Tận hưởng thành qủa</div>
+            <div class="image">
+              <img src="../assets/guideline/6.png" alt="" width="512px">
+            </div>
           </v-row>
         </v-sheet>
       </v-carousel-item>
@@ -34,13 +150,6 @@ import LocalDB from '../helpers/localdb'
 export default {
   data () {
     return {
-      colors: [
-        'primary',
-        'secondary',
-        'yellow darken-2',
-        'red',
-        'orange'
-      ],
       model: 0
     }
   },
@@ -63,3 +172,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.display-1 {
+  padding: 25px;
+}
+</style>

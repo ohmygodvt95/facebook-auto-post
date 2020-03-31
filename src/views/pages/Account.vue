@@ -1,8 +1,11 @@
 <template>
-  <div class="home">
+  <div :class="$route.name === 'account' ? 'card-on-top' : ''">
     <v-container fluid>
       <v-row>
-        <v-col cols="6" offset="3">
+        <v-col cols="4" offset="4">
+          <div class="d-flex justify-center">
+            <img src="../../assets/logo.png" alt="logo" width="128px" style="margin: 0 auto">
+          </div>
           <v-card
             class="mx-auto mt-5"
           >
@@ -12,6 +15,7 @@
                 Bạn chưa đăng nhập, bấm vào nút đăng nhập phía dưới để đăng nhập vào tài khoản. Tài khoản này sẽ được dùng để tự động post bài viết vào các group.
               </p>
               <p v-else>
+                Hi <b>{{ username }}</b> ! <br>
                 Bạn hiện đang đăng nhập, click vào đăng xuất để thay đổi tài khoản khác.
               </p>
             </v-card-text>
@@ -30,6 +34,15 @@
               >
                 ĐĂNG XUẤT
               </v-btn>
+              <v-spacer></v-spacer>
+              <v-btn
+                text
+                color="error"
+                v-if="$route.name === 'account'"
+                @click="exitApp()"
+              >
+                Thoát ứng dụng
+              </v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -44,6 +57,7 @@ const { session } = require('electron').remote
 
 export default {
   name: 'Home',
+  username: null,
   data: function () {
     return {
       localDb: null,
@@ -52,6 +66,7 @@ export default {
   },
   methods: {
     open: function () {
+      const thisInt = this
       const modal = window.open('https://mbasic.facebook.com/', 'popup')
       const timer = setInterval(function (callback) {
         session.defaultSession.cookies.get({ url: 'https://mbasic.facebook.com' })
@@ -60,16 +75,22 @@ export default {
             if (check.length > 0) {
               clearInterval(timer)
               modal.close()
-              callback(cookies)
+              thisInt.$http.get('https://mbasic.facebook.com/profile').then(res => {
+                const parser = new DOMParser()
+                const htmlDocument = parser.parseFromString(res.data, 'text/html')
+                const name = htmlDocument.documentElement.querySelector('#m-timeline-cover-section strong').innerText
+                callback(cookies, name)
+              })
             }
           })
       }, 500, this.updateCookie)
     },
-    updateCookie: function (cookies) {
+    updateCookie: function (cookies, name) {
       this.cookie = cookies
       this.localDb.set('cookie', cookies)
       session.defaultSession.clearStorageData([], (data) => {})
-      this.$notifier.showMessage({ content: 'Đăng nhập thành công' })
+      this.$notifier.showMessage({ content: `Hi ${name}, welcome back!` })
+      localStorage.setItem('username', name)
       if (this.$route.path === '/account') {
         this.$router.push('/pages/home')
       }
@@ -77,7 +98,13 @@ export default {
     deleteCookie () {
       this.cookie = ''
       this.localDb.set('cookie', '')
+      localStorage.removeItem('username')
       this.$notifier.showMessage({ content: 'Đăng xuất thành công' })
+    },
+    exitApp: function () {
+      const remote = require('electron').remote
+      const win = remote.getCurrentWindow()
+      win.close()
     }
   },
   created: function () {
@@ -89,6 +116,13 @@ export default {
     })
 
     this.cookie = this.localDb.get('cookie')
+    this.username = localStorage.getItem('username')
   }
 }
 </script>
+
+<style>
+.card-on-top {
+  padding-top: 100px;
+}
+</style>
