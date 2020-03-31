@@ -130,7 +130,7 @@
           >
             <div class="display-1">Tận hưởng thành qủa</div>
             <div class="image">
-              <img src="../assets/guideline/6.png" alt="" width="512px">
+              <img src="../assets/guideline/7.png" alt="" width="512px">
             </div>
           </v-row>
         </v-sheet>
